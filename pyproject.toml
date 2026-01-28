@@ -1,0 +1,11 @@
+[project]
+name = "tools"
+version = "0.1.0"
+description = "A junk drawer of small experiments."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+agent = ["PyYAML>=6.0.1"]
+

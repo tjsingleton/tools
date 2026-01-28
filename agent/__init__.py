@@ -1,0 +1,2 @@
+"""Thin agent scaffold (optional)."""
+
