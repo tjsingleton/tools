@@ -6,9 +6,20 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TOOLS_DIR = REPO_ROOT / "tools"
+
+# Ensure repo-root modules (e.g. agent/) are importable when running as a script.
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from agent.openai_responses import (  # noqa: E402
+    build_responses_payload,
+    create_response,
+    extract_output_text,
+    get_openai_api_key,
+)
+from agent.runner import load_agent_config  # noqa: E402
 
 
 def _list_tools() -> list[str]:
@@ -50,26 +61,58 @@ def _run_agent(tool_dir: Path, args: list[str]) -> int:
         print(f"Agent mode requested, but {agent_yaml} not found.", file=sys.stderr)
         return 2
 
-    try:
-        import yaml  # type: ignore
-    except Exception:
-        print(
-            "Agent mode requires PyYAML.\n"
-            "Install: pip install -e '.[agent]'",
-            file=sys.stderr,
-        )
+    p = argparse.ArgumentParser(
+        prog=f"{Path(sys.argv[0]).name} {tool_dir.name} --agent --",
+        description="Run tool in agent mode (OpenAI Responses API).",
+    )
+    p.add_argument(
+        "--prompt",
+        help="Single prompt to send to the agent (otherwise reads stdin until EOF)",
+    )
+    p.add_argument(
+        "--timeout",
+        type=float,
+        default=60.0,
+        help="HTTP timeout in seconds",
+    )
+    p.add_argument(
+        "--print-payload",
+        action="store_true",
+        help="Print the JSON payload that would be sent (no network call).",
+    )
+    ns = p.parse_args(args)
+
+    cfg = load_agent_config(agent_yaml)
+    user_input = ns.prompt if ns.prompt is not None else sys.stdin.read()
+    if not user_input.strip():
+        print("No input provided. Use --prompt or pipe stdin.", file=sys.stderr)
         return 2
 
-    with agent_yaml.open("r", encoding="utf-8") as f:
-        config = yaml.safe_load(f) or {}
+    payload = build_responses_payload(model=cfg.model, system=cfg.system, user_input=user_input)
+    if ns.print_payload:
+        import json
 
-    print(
-        "Agent mode scaffold only.\n"
-        f"Loaded {agent_yaml.relative_to(REPO_ROOT)} with keys: {sorted(config.keys())}\n"
-        "Next: implement agent runner in agent/ and wire it here.",
-        file=sys.stderr,
-    )
-    return 2
+        print(json.dumps(payload, indent=2, sort_keys=True))
+        return 0
+
+    try:
+        api_key = get_openai_api_key()
+        data = create_response(api_key=api_key, payload=payload, timeout_s=ns.timeout)
+    except Exception as e:
+        print(str(e), file=sys.stderr)
+        return 1
+
+    text = extract_output_text(data)
+    if text:
+        sys.stdout.write(text)
+        sys.stdout.write("\n")
+        return 0
+
+    import json
+
+    sys.stdout.write(json.dumps(data, indent=2, sort_keys=True))
+    sys.stdout.write("\n")
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -88,13 +131,8 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Run in agent mode (requires tools/<name>/agent.yaml)",
     )
-    parser.add_argument(
-        "args",
-        nargs=argparse.REMAINDER,
-        help="Args after -- are passed through to the tool",
-    )
 
-    ns = parser.parse_args(argv)
+    ns, remainder = parser.parse_known_args(argv)
 
     if ns.list:
         for name in _list_tools():
@@ -114,7 +152,7 @@ def main(argv: list[str] | None = None) -> int:
         print("Use --list to see available tools.", file=sys.stderr)
         return 2
 
-    passthrough = ns.args
+    passthrough = remainder
     if passthrough[:1] == ["--"]:
         passthrough = passthrough[1:]
 
@@ -125,4 +163,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

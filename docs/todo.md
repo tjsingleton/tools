@@ -8,14 +8,14 @@
 
 ## Agent mode (later)
 
-- Define `agent.yaml` schema (model, system prompt, tools, memory).
-- Implement `python scripts/run_tool.py <tool> --agent`:
-  - Parse `agent.yaml` (PyYAML extra).
-  - Provide a thin adapter for provider/model selection.
-  - Keep orchestration in repo; keep “intelligence” outside it.
+- Implemented MVP `python scripts/run_tool.py <tool> --agent` (OpenAI Responses API).
+- Next:
+  - Define a richer `agent.yaml` schema (tools, memory, templates).
+  - Add a provider abstraction (OpenAI is currently hard-coded).
+  - Add streaming and better error reporting.
+  - Consider a real YAML parser if config grows beyond the supported subset.
 
 ## Repo hygiene
 
 - Add a `justfile` or `Makefile` only if shortcuts become repetitive.
 - Add `results/` conventions if you start saving traces or outputs.
-
