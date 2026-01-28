@@ -19,6 +19,12 @@ from agent.openai_responses import (  # noqa: E402
     extract_output_text,
     get_openai_api_key,
 )
+from agent.ollama_chat import (  # noqa: E402
+    build_ollama_chat_payload,
+    create_chat,
+    extract_ollama_content,
+    get_ollama_host,
+)
 from agent.runner import load_agent_config  # noqa: E402
 
 
@@ -70,6 +76,11 @@ def _run_agent(tool_dir: Path, args: list[str]) -> int:
         help="Single prompt to send to the agent (otherwise reads stdin until EOF)",
     )
     p.add_argument(
+        "--provider",
+        choices=["openai", "ollama"],
+        help="Override provider from agent.yaml",
+    )
+    p.add_argument(
         "--timeout",
         type=float,
         default=60.0,
@@ -83,12 +94,17 @@ def _run_agent(tool_dir: Path, args: list[str]) -> int:
     ns = p.parse_args(args)
 
     cfg = load_agent_config(agent_yaml)
+    provider = ns.provider or cfg.provider
     user_input = ns.prompt if ns.prompt is not None else sys.stdin.read()
     if not user_input.strip():
         print("No input provided. Use --prompt or pipe stdin.", file=sys.stderr)
         return 2
 
-    payload = build_responses_payload(model=cfg.model, system=cfg.system, user_input=user_input)
+    if provider == "openai":
+        payload = build_responses_payload(model=cfg.model, system=cfg.system, user_input=user_input)
+    else:
+        payload = build_ollama_chat_payload(model=cfg.model, system=cfg.system, user_input=user_input)
+
     if ns.print_payload:
         import json
 
@@ -96,13 +112,18 @@ def _run_agent(tool_dir: Path, args: list[str]) -> int:
         return 0
 
     try:
-        api_key = get_openai_api_key()
-        data = create_response(api_key=api_key, payload=payload, timeout_s=ns.timeout)
+        if provider == "openai":
+            api_key = get_openai_api_key()
+            data = create_response(api_key=api_key, payload=payload, timeout_s=ns.timeout)
+            text = extract_output_text(data)
+        else:
+            host = get_ollama_host()
+            data = create_chat(host=host, payload=payload, timeout_s=ns.timeout)
+            text = extract_ollama_content(data)
     except Exception as e:
         print(str(e), file=sys.stderr)
         return 1
 
-    text = extract_output_text(data)
     if text:
         sys.stdout.write(text)
         sys.stdout.write("\n")

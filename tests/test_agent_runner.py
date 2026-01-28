@@ -12,6 +12,7 @@ class AgentRunnerTests(unittest.TestCase):
             "\n".join(
                 [
                     "name: carrier-api-explorer",
+                    "provider: openai",
                     "model: gpt-4o-mini",
                     "system: |",
                     "  You help explore the Carrier HVAC API.",
@@ -22,6 +23,7 @@ class AgentRunnerTests(unittest.TestCase):
         )
 
         self.assertEqual(cfg["name"], "carrier-api-explorer")
+        self.assertEqual(cfg["provider"], "openai")
         self.assertEqual(cfg["model"], "gpt-4o-mini")
         self.assertIn("Prefer curl examples.", cfg["system"])
 
@@ -56,6 +58,21 @@ class AgentRunnerTests(unittest.TestCase):
 
         self.assertEqual(extract_output_text(data), "Hello world")
 
+    def test_ollama_payload_and_extract(self) -> None:
+        from agent.ollama_chat import build_ollama_chat_payload, extract_ollama_content
+
+        payload = build_ollama_chat_payload(
+            model="llama3.2",
+            system="You are concise.",
+            user_input="Hello",
+        )
+        self.assertEqual(payload["model"], "llama3.2")
+        self.assertEqual(payload["stream"], False)
+        self.assertEqual(payload["messages"][0]["role"], "system")
+
+        data = {"message": {"role": "assistant", "content": "OK"}}
+        self.assertEqual(extract_ollama_content(data), "OK")
+
     def test_agent_requires_openai_api_key(self) -> None:
         from agent.openai_responses import get_openai_api_key
 
@@ -70,4 +87,3 @@ class AgentRunnerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

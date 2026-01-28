@@ -8,6 +8,7 @@ from typing import Any
 @dataclass(frozen=True)
 class AgentConfig:
     name: str | None
+    provider: str
     model: str
     system: str | None
 
@@ -94,6 +95,10 @@ def load_agent_config(path: Path) -> AgentConfig:
     raw = path.read_text(encoding="utf-8")
     data = parse_agent_yaml(raw)
 
+    provider = str(data.get("provider") or "openai").strip().lower()
+    if provider not in {"openai", "ollama"}:
+        raise ValueError("agent.yaml provider must be 'openai' or 'ollama'")
+
     model = str(data.get("model") or "").strip()
     if not model:
         raise ValueError("agent.yaml missing required field: model")
@@ -104,5 +109,4 @@ def load_agent_config(path: Path) -> AgentConfig:
     system_val = data.get("system")
     system = str(system_val).strip() if isinstance(system_val, str) and system_val.strip() else None
 
-    return AgentConfig(name=name, model=model, system=system)
-
+    return AgentConfig(name=name, provider=provider, model=model, system=system)
