@@ -1,0 +1,11 @@
+# USD per 1M tokens
+models:
+  "gpt-4o-mini":
+    input_per_m: 0.15
+    output_per_m: 0.60
+  "openai/gpt-4o-mini":
+    input_per_m: 0.15
+    output_per_m: 0.60
+  "nomic-embed-text":
+    input_per_m: 0.0
+    output_per_m: 0.0

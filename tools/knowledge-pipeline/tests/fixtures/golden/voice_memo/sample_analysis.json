@@ -1,0 +1,13 @@
+{
+  "summary": "Decision to move forward with offer on the Hidden Shoals property after a call with Sarah.",
+  "action_items": [
+    "Send Sarah the updated comps spreadsheet before end of day",
+    "Schedule the inspector",
+    "Loop in Mike on the financing side"
+  ],
+  "people": ["Sarah", "Mike"],
+  "topics": ["real estate", "Hidden Shoals property", "financing"],
+  "dates": ["March 18"],
+  "confidence": 0.85,
+  "memo_type": "decision"
+}

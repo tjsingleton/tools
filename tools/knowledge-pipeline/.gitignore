@@ -1,0 +1,14 @@
+*.m4a
+*.mp3
+*.wav
+*.qta
+*.json.tmp
+__pycache__/
+.pytest_cache/
+*.pyc
+~/Library/KnowledgePipeline/
+.kp/
+.venv/
+*.egg-info/
+dist/
+build/
