@@ -74,8 +74,10 @@ class WhisperXBackend:
         if self._asr is None:
             import whisperx  # type: ignore
 
+            # ctranslate2 only supports cpu/cuda; MPS is used only for pyannote/align models
+            asr_device = "cpu" if self.device == "mps" else self.device
             self._asr = whisperx.load_model(
-                self.model_name, self.device, compute_type=self.compute_type
+                self.model_name, asr_device, compute_type=self.compute_type
             )
         return self._asr
 
