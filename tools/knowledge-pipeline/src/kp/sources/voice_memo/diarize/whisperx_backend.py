@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+import logging
 import os
+import platform
 from pathlib import Path
 
 from kp.sources.voice_memo.diarize.backend import DiarizationResult, Segment
+
+log = logging.getLogger(__name__)
 
 
 def _hf_token() -> str | None:
@@ -18,6 +22,30 @@ def _hf_token() -> str | None:
         return None
 
 
+def _resolve_device(device: str) -> str:
+    """Resolve ``"auto"`` to the best available device.
+
+    On Apple Silicon, prefers ``"mps"`` when ``torch.backends.mps.is_available()``
+    returns True; otherwise falls back to ``"cpu"``.
+    """
+    if device != "auto":
+        return device
+
+    is_arm = platform.machine() == "arm64"
+    if is_arm:
+        try:
+            import torch  # type: ignore
+
+            if torch.backends.mps.is_available():
+                log.debug("device=auto → mps (Apple Silicon)")
+                return "mps"
+        except Exception:
+            pass
+
+    log.debug("device=auto → cpu")
+    return "cpu"
+
+
 class WhisperXBackend:
     name = "whisperx"
 
@@ -25,7 +53,7 @@ class WhisperXBackend:
         self,
         *,
         model: str = "base",
-        device: str = "cpu",
+        device: str = "auto",
         compute_type: str = "int8",
         language: str | None = None,
         min_speakers: int | None = None,
@@ -33,7 +61,7 @@ class WhisperXBackend:
         hf_token: str | None = None,
     ) -> None:
         self.model_name = model
-        self.device = device
+        self.device = _resolve_device(device)
         self.compute_type = compute_type
         self.language = language
         self.min_speakers = min_speakers
@@ -81,9 +109,26 @@ class WhisperXBackend:
         )
 
         diar = self._load_diar()
-        diar_segments = diar(
-            audio, min_speakers=self.min_speakers, max_speakers=self.max_speakers
-        )
+        try:
+            diar_segments = diar(
+                audio, min_speakers=self.min_speakers, max_speakers=self.max_speakers
+            )
+        except RuntimeError as exc:
+            msg = str(exc)
+            if self.device == "mps" and ("mps" in msg.lower() or "aten::" in msg):
+                log.warning(
+                    "MPS diarization failed (%s); retrying on CPU.", exc
+                )
+                self.device = "cpu"
+                self._diar = None
+                diar = self._load_diar()
+                diar_segments = diar(
+                    audio,
+                    min_speakers=self.min_speakers,
+                    max_speakers=self.max_speakers,
+                )
+            else:
+                raise
         with_speakers = whisperx.assign_word_speakers(diar_segments, aligned)
 
         segs: list[Segment] = []
