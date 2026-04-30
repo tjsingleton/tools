@@ -37,6 +37,11 @@ class ItemTranscribed(Event):
 
 
 @dataclass
+class SpeakerDiarized(Event):
+    event_type: str = "SpeakerDiarized"
+
+
+@dataclass
 class AnalysisCompleted(Event):
     event_type: str = "AnalysisCompleted"
 
@@ -54,3 +59,19 @@ class ItemCurated(Event):
 @dataclass
 class BudgetDeferred(Event):
     event_type: str = "BudgetDeferred"
+
+
+@dataclass
+class ItemArchived(Event):
+    event_type: str = "ItemArchived"
+
+
+@dataclass
+class ItemUnarchived(Event):
+    event_type: str = "ItemUnarchived"
+
+
+@dataclass
+class AudioFingerprinted(Event):
+    event_type: str = "AudioFingerprinted"
+    source: str = "voice_memo"

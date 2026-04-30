@@ -81,5 +81,40 @@ class EventStore:
         for row in cur.fetchall():
             yield dict(row)
 
+    def query(self, *, event_type: str | None = None, source: str | None = None) -> list[dict]:
+        """Return events matching optional filters, ordered by id ASC."""
+        conditions = []
+        params: list = []
+        if event_type is not None:
+            conditions.append("event_type = ?")
+            params.append(event_type)
+        if source is not None:
+            conditions.append("source = ?")
+            params.append(source)
+        where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
+        cur = self._conn.execute(
+            f"SELECT * FROM events {where} ORDER BY id ASC",
+            params,
+        )
+        rows = [dict(r) for r in cur.fetchall()]
+        for row in rows:
+            if "data_json" in row:
+                row["data"] = json.loads(row.pop("data_json"))
+        return rows
+
+    def by_hash(self, content_hash: str) -> list[dict]:
+        cur = self._conn.execute(
+            "SELECT * FROM events WHERE content_hash = ? ORDER BY id ASC",
+            (content_hash,),
+        )
+        return [dict(r) for r in cur.fetchall()]
+
+    def delete_by_hash(self, content_hash: str) -> int:
+        cur = self._conn.execute(
+            "DELETE FROM events WHERE content_hash = ?", (content_hash,)
+        )
+        self._conn.commit()
+        return cur.rowcount
+
     def close(self) -> None:
         self._conn.close()

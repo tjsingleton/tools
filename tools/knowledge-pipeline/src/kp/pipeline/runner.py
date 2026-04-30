@@ -10,8 +10,9 @@ from kp.events import EventStore, ItemTranscribed
 from kp.pipeline.plugin import Document, RawDocument
 from kp.pipeline.stages.analyze import analyze_stage
 from kp.pipeline.stages.curate import curate_stage
+from kp.pipeline.stages.diarize import diarize_stage
 from kp.pipeline.stages.embed import embed_stage
-from kp.pipeline.stages.ingest import ingest_stage
+from kp.pipeline.stages.ingest import ingest_stage, reprocess_stage
 from kp.pipeline.stages.normalize import normalize_stage
 
 
@@ -28,6 +29,8 @@ class PipelineRunner:
         hard_cap_usd: float = 5.00,
         per_item_soft_cap: float = 0.25,
         transcribe_backend: str = "faster_whisper",
+        diarize_backend: str = "whisperx",
+        whisper_model: str | None = None,
         event_store: EventStore | None = None,
     ) -> None:
         self.plugin = plugin
@@ -38,9 +41,12 @@ class PipelineRunner:
             per_item_soft_cap=per_item_soft_cap,
         )
         self.transcribe_backend_name = transcribe_backend
+        self.diarize_backend_name = diarize_backend
+        self.whisper_model = whisper_model
         self.store = event_store or EventStore()
         self._index = None
         self._transcribe_backend = None
+        self._diarize_backend = None
 
     def _get_index(self):
         if self._index is None:
@@ -53,7 +59,10 @@ class PipelineRunner:
         if self._transcribe_backend is None:
             from kp.sources.voice_memo.transcribe import get_backend
 
-            self._transcribe_backend = get_backend(self.transcribe_backend_name)
+            kwargs = {}
+            if self.whisper_model:
+                kwargs["model"] = self.whisper_model
+            self._transcribe_backend = get_backend(self.transcribe_backend_name, **kwargs)
         return self._transcribe_backend
 
     def _transcribe(self, raw: RawDocument) -> str:
@@ -81,6 +90,13 @@ class PipelineRunner:
         )
         return result.text
 
+    def _get_diarize_backend(self):
+        if self._diarize_backend is None:
+            from kp.sources.voice_memo.diarize import get_diarizer
+
+            self._diarize_backend = get_diarizer(self.diarize_backend_name)
+        return self._diarize_backend
+
     def _make_document(self, raw: RawDocument, text: str) -> Document:
         try:
             return self.plugin.normalize(raw, text=text)  # type: ignore[call-arg]
@@ -89,23 +105,47 @@ class PipelineRunner:
             doc.text = text
             return doc
 
-    def run(self, *, path: Path, stages: list[str]) -> dict[str, Any]:
+    def run(
+        self,
+        *,
+        path: Path,
+        stages: list[str],
+        reprocess: bool = False,
+    ) -> dict[str, Any]:
         counts = {s: 0 for s in stages}
         counts["items"] = 0
 
-        for raw in ingest_stage(self.plugin, path, self.store):
-            counts["ingest"] = counts.get("ingest", 0) + 1
+        if reprocess:
+            source_name = getattr(self.plugin, "name", None)
+            iterator = reprocess_stage(self.store, source=source_name)
+        else:
+            iterator = ingest_stage(self.plugin, path, self.store)
+
+        for raw in iterator:
             counts["items"] += 1
 
             loaded = raw
-            if "normalize" in stages:
-                loaded = normalize_stage(self.plugin, raw, self.store)
-                counts["normalize"] += 1
+            if reprocess:
+                # already ingested+normalized; raw.path is post-conversion
+                pass
+            else:
+                counts["ingest"] = counts.get("ingest", 0) + 1
+                if "normalize" in stages:
+                    loaded = normalize_stage(self.plugin, raw, self.store)
+                    counts["normalize"] += 1
 
-            text = ""
+            text = None
             if "transcribe" in stages:
                 text = self._transcribe(loaded)
                 counts["transcribe"] += 1
+
+            if "diarize" in stages:
+                diar = diarize_stage(
+                    loaded, store=self.store, backend=self._get_diarize_backend()
+                )
+                if diar is not None and diar.segments:
+                    text = diar.assemble_text()
+                counts["diarize"] = counts.get("diarize", 0) + 1
 
             doc = self._make_document(loaded, text)
 

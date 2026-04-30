@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Pipeline Status — Knowledge Pipeline{% endblock %}
+{% block content %}
+<meta http-equiv="refresh" content="5" />
+<h2 style="margin: 0 0 1rem; font-size: 1.2rem;">Pipeline Status</h2>
+<div class="refresh-note">auto-refreshing every 5 seconds — total spend: <strong>${{ "%.4f"|format(total_cost) }}</strong></div>
+
+<div class="status-grid">
+  {% for stage, label in [
+       ("ItemIngested", "Ingested"),
+       ("ItemNormalized", "Normalized"),
+       ("ItemTranscribed", "Transcribed"),
+       ("SpeakerDiarized", "Diarized"),
+       ("AnalysisCompleted", "Analyzed"),
+  ] %}
+  <div class="status-card">
+    <h3>{{ label }}</h3>
+    <div class="big">{{ stage_counts[stage] }}{% if total_items %} / {{ total_items }}{% endif %}</div>
+    {% if total_items %}
+    <div class="status-bar"><span style="width: {{ (stage_counts[stage] / total_items * 100) | round(0) }}%"></span></div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+
+<div class="section">
+  <h2>By source</h2>
+  <table class="memo-table">
+    <thead>
+      <tr><th>Source</th>{% for et in ["ItemIngested","ItemNormalized","ItemTranscribed","SpeakerDiarized","AnalysisCompleted","BudgetDeferred"] %}<th>{{ et }}</th>{% endfor %}</tr>
+    </thead>
+    <tbody>
+    {% for src, counts in by_source.items() %}
+    <tr>
+      <td><span class="source-badge">{{ src }}</span></td>
+      {% for et in ["ItemIngested","ItemNormalized","ItemTranscribed","SpeakerDiarized","AnalysisCompleted","BudgetDeferred"] %}
+      <td class="length-cell">{{ counts.get(et, 0) }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h2>Recent events</h2>
+  <div class="events-stream">
+    {% for e in recent %}
+    <div>
+      <span class="ts-cell">{{ e.ts[:19] }}</span>
+      <span class="et-cell">{{ e.event_type }}</span>
+      <span class="ch-cell"><code class="copy-id" data-copy="{{ e.short_id }}" title="Click to copy">{{ e.short_id }}</code></span>
+      <span class="muted">{{ e.source }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

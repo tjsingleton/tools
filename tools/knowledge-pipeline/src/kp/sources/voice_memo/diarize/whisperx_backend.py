@@ -1,0 +1,106 @@
+from __future__ import annotations
+
+import os
+from pathlib import Path
+
+from kp.sources.voice_memo.diarize.backend import DiarizationResult, Segment
+
+
+def _hf_token() -> str | None:
+    tok = os.environ.get("HUGGINGFACE_TOKEN") or os.environ.get("HF_TOKEN")
+    if tok:
+        return tok
+    try:
+        import keyring  # type: ignore
+
+        return keyring.get_password("huggingface", "default")
+    except Exception:
+        return None
+
+
+class WhisperXBackend:
+    name = "whisperx"
+
+    def __init__(
+        self,
+        *,
+        model: str = "base",
+        device: str = "cpu",
+        compute_type: str = "int8",
+        language: str | None = None,
+        min_speakers: int | None = None,
+        max_speakers: int | None = None,
+        hf_token: str | None = None,
+    ) -> None:
+        self.model_name = model
+        self.device = device
+        self.compute_type = compute_type
+        self.language = language
+        self.min_speakers = min_speakers
+        self.max_speakers = max_speakers
+        self.hf_token = hf_token or _hf_token()
+        self._asr = None
+        self._diar = None
+
+    def _load_asr(self):
+        if self._asr is None:
+            import whisperx  # type: ignore
+
+            self._asr = whisperx.load_model(
+                self.model_name, self.device, compute_type=self.compute_type
+            )
+        return self._asr
+
+    def _load_diar(self):
+        if self._diar is None:
+            if not self.hf_token:
+                raise RuntimeError(
+                    "WhisperX diarization requires a HuggingFace token. "
+                    "Set HUGGINGFACE_TOKEN or store via "
+                    "`security add-generic-password -s huggingface -a default -w`."
+                )
+            from whisperx.diarize import DiarizationPipeline  # type: ignore
+
+            self._diar = DiarizationPipeline(
+                token=self.hf_token, device=self.device
+            )
+        return self._diar
+
+    def diarize(self, audio_path: Path) -> DiarizationResult:
+        import whisperx  # type: ignore
+
+        audio = whisperx.load_audio(str(audio_path))
+        asr = self._load_asr()
+        result = asr.transcribe(audio, language=self.language) if self.language else asr.transcribe(audio)
+        lang = result.get("language", "")
+
+        align_model, align_meta = whisperx.load_align_model(language_code=lang, device=self.device)
+        aligned = whisperx.align(
+            result["segments"], align_model, align_meta, audio, self.device,
+            return_char_alignments=False,
+        )
+
+        diar = self._load_diar()
+        diar_segments = diar(
+            audio, min_speakers=self.min_speakers, max_speakers=self.max_speakers
+        )
+        with_speakers = whisperx.assign_word_speakers(diar_segments, aligned)
+
+        segs: list[Segment] = []
+        speakers: set[str] = set()
+        for s in with_speakers.get("segments", []):
+            spk = s.get("speaker") or "SPEAKER_UNKNOWN"
+            speakers.add(spk)
+            segs.append(
+                Segment(
+                    start=float(s.get("start", 0.0)),
+                    end=float(s.get("end", 0.0)),
+                    speaker_id=spk,
+                    text=str(s.get("text", "")).strip(),
+                )
+            )
+        return DiarizationResult(
+            segments=segs,
+            speakers=sorted(speakers),
+            metadata={"model": self.model_name, "language": lang},
+        )

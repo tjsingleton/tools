@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Knowledge Pipeline{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a href="/" class="logo">Knowledge Pipeline</a>
+    <nav>
+      <a href="/">Memos</a>
+      <a href="/status">Status</a>
+    </nav>
+  </header>
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+  <script>
+(function(){
+  function copy(el) {
+    const text = el.dataset.copy || el.textContent || "";
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = el.textContent;
+      const wasCode = el.tagName === "CODE";
+      el.classList.add("copied");
+      el.textContent = wasCode ? "✓ " + orig : "✓ copied";
+      setTimeout(() => {
+        el.textContent = orig;
+        el.classList.remove("copied");
+      }, 1100);
+    });
+  }
+  document.addEventListener("click", e => {
+    const t = e.target.closest(".copy-id, .copy-btn");
+    if (t) {
+      e.preventDefault();
+      copy(t);
+    }
+  });
+})();
+</script>
+</body>
+</html>

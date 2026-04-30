@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import importlib
 from pathlib import Path
 
+import pytest
 from pytest_bdd import scenarios, given, when, then, parsers
 
 from kp.events import EventStore
@@ -10,6 +12,27 @@ from kp.sources.voice_memo import VoiceMemoPlugin
 
 
 scenarios("voice_memo_ingest.feature")
+
+_discover_mod = importlib.import_module("kp.sources.voice_memo.discover")
+
+
+@pytest.fixture(autouse=True)
+def _mock_fingerprint(monkeypatch):
+    """Patch fingerprint_file and _convert_qta_to_m4a so feature tests work with
+    fake audio bytes — no real fpcalc or ffmpeg required."""
+
+    call_count = [0]
+
+    def fake_fingerprint(path: Path):
+        call_count[0] += 1
+        return (10.0, f"FP_{path.name}_{call_count[0]}")
+
+    def fake_convert(src: Path, dst: Path) -> None:
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_bytes(src.read_bytes())  # copy raw bytes as stand-in
+
+    monkeypatch.setattr(_discover_mod, "fingerprint_file", fake_fingerprint)
+    monkeypatch.setattr(_discover_mod, "_convert_qta_to_m4a", fake_convert)
 
 
 @given("a directory with .m4a and .qta files", target_fixture="audio_dir")

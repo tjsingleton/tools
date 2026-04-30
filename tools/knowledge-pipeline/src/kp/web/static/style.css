@@ -1,0 +1,812 @@
+/* Knowledge Pipeline Review UI — minimal system-font stylesheet */
+
+:root {
+  color-scheme: light dark;
+  --bg: #ffffff;
+  --bg-subtle: #f5f5f5;
+  --border: #e0e0e0;
+  --text: #1a1a1a;
+  --text-muted: #666666;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --tag-bg: #eff6ff;
+  --tag-text: #1e40af;
+  --mono-bg: #f8f8f8;
+  --header-bg: #1e293b;
+  --header-text: #f8fafc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --bg-subtle: #1e293b;
+    --border: #334155;
+    --text: #f1f5f9;
+    --text-muted: #94a3b8;
+    --accent: #60a5fa;
+    --accent-hover: #93c5fd;
+    --tag-bg: #1e3a5f;
+    --tag-text: #93c5fd;
+    --mono-bg: #1e293b;
+    /* Use a visually distinct dark — same as --bg made the header invisible */
+    --header-bg: #020817;
+    --header-text: #f1f5f9;
+  }
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--header-bg);
+  color: var(--header-text);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.site-header .logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--header-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-header nav a {
+  color: var(--header-text);
+  opacity: 0.75;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.site-header nav a:hover {
+  opacity: 1;
+}
+
+/* ── Main container ──────────────────────────────────────── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+/* ── Filter bar ──────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.filter-bar label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.filter-bar input,
+.filter-bar select {
+  font-size: 0.85rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.filter-bar button {
+  font-size: 0.85rem;
+  padding: 0.3rem 0.75rem;
+  border: none;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.filter-bar button:hover {
+  background: var(--accent-hover);
+}
+
+.filter-bar a.reset {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ── Memo table ──────────────────────────────────────────── */
+.memo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.memo-table th {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 2px solid var(--border);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.memo-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.memo-table tr:hover td {
+  background: var(--bg-subtle);
+}
+
+.memo-table a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.memo-table a:hover {
+  text-decoration: underline;
+}
+
+.memo-table .date-cell {
+  white-space: nowrap;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+/* source-badge is used in the table AND in .memo-meta — keep selector broad */
+.source-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-weight: 500;
+}
+
+.memo-table .summary-cell {
+  max-width: 360px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+}
+
+/* ── Memo detail ─────────────────────────────────────────── */
+.memo-header {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.memo-header h1 {
+  margin: 0 0 0.4rem;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.memo-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.memo-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* ── Two-column layout ───────────────────────────────────── */
+.memo-body {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Critical: without min-width:0 the grid column won't shrink below content
+   width, so the transcript can never wrap — it just overflows instead. */
+.memo-main {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .memo-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Sections ────────────────────────────────────────────── */
+.section {
+  margin-bottom: 1.75rem;
+}
+
+.section h2 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin: 0 0 0.6rem;
+  font-weight: 600;
+}
+
+/* ── Transcript ──────────────────────────────────────────── */
+.transcript {
+  background: var(--mono-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  /* No overflow-x:auto — that would create a scroll context preventing wrapping */
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+/* ── Analysis card ───────────────────────────────────────── */
+.analysis-summary {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tag-list li {
+  display: inline-block;
+  font-size: 0.78rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+}
+
+.action-items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.action-items li {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+}
+
+.action-items li:last-child {
+  border-bottom: none;
+}
+
+.action-items .speaker-badge {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-family: monospace;
+  align-self: flex-start;
+  margin-top: 0.15rem;
+}
+
+/* ── Side panel ──────────────────────────────────────────── */
+.side-panel {
+  position: sticky;
+  top: 4rem;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.side-panel-header {
+  padding: 0.6rem 1rem;
+  background: var(--border);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.side-panel-content {
+  padding: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  max-height: calc(100vh - 8rem);
+  overflow-y: auto;
+  /* prevent long markdown lines or URLs from escaping the 400px panel */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  min-width: 0;
+}
+
+.side-panel-content.vtt-content {
+  font-family: "SF Mono", "Fira Code", Menlo, Consolas, monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── Back link ───────────────────────────────────────────── */
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}
+
+/* ── Polished markdown prose ─────────────────────────────── */
+.side-panel-content h1,
+.side-panel-content h2,
+.side-panel-content h3 {
+  font-size: 0.95rem;
+  margin: 1rem 0 0.4rem;
+  color: var(--text);
+}
+
+.side-panel-content p {
+  margin: 0.4rem 0;
+}
+
+.side-panel-content ul,
+.side-panel-content ol {
+  padding-left: 1.25rem;
+  margin: 0.4rem 0;
+}
+
+/* ── Audio strip ─────────────────────────────────────────── */
+.audio-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.audio-strip audio {
+  flex: 1 1 300px;
+  min-width: 240px;
+  max-width: 100%;
+  height: 36px;
+}
+
+.audio-strip .warn {
+  color: #b91c1c;
+  font-size: 0.82rem;
+}
+
+.path-reveal {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  /* Take full width when it wraps below the player on narrow windows */
+  flex: 1 1 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.path-reveal summary {
+  cursor: pointer;
+  user-select: none;
+}
+
+.path-reveal[open] summary {
+  margin-bottom: 0.4rem;
+}
+
+.path-code {
+  display: inline-block;
+  background: var(--mono-bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0.15rem 0.4rem;
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  /* break-all so long /Volumes/... paths wrap rather than overflow */
+  word-break: break-all;
+  overflow-wrap: anywhere;
+  margin-right: 0.4rem;
+  max-width: 100%;
+}
+
+.copy-btn {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  background: var(--bg-subtle);
+  color: var(--text);
+  cursor: pointer;
+  margin-right: 0.3rem;
+}
+
+.copy-btn:hover {
+  background: var(--border);
+}
+
+/* ── Speaker transcript ──────────────────────────────────── */
+.speaker-transcript {
+  background: var(--mono-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem 0;
+  max-height: 600px;
+  overflow-y: auto;
+  /* Do NOT set overflow-x here — that would create a scroll context and
+     prevent inner content from wrapping naturally. */
+}
+
+.speaker-group {
+  padding: 0.6rem 1.25rem;
+  border-left: 3px solid transparent;
+  transition: background-color 0.15s, border-color 0.15s;
+  /* min-width:0 ensures this flex/grid child can shrink below its content */
+  min-width: 0;
+}
+
+.speaker-group + .speaker-group {
+  border-top: 1px solid var(--border);
+}
+
+.speaker-group.active {
+  background: rgba(96, 165, 250, 0.10);
+  border-left-color: var(--accent);
+}
+
+.speaker-group-head {
+  display: flex;
+  align-items: baseline;
+  /* allow the row to wrap if badge+timestamp are wider than available space */
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+  font-size: 0.78rem;
+  margin-bottom: 0.25rem;
+}
+
+.speaker-group-head .speaker-badge {
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  flex-shrink: 0;
+}
+
+.speaker-group-head .ts {
+  font-family: "SF Mono", Menlo, monospace;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.78rem;
+  /* larger click target without changing layout */
+  padding: 0.2rem 0.1rem;
+  flex-shrink: 0;
+}
+
+.speaker-group-head .ts:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.speaker-group p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  /* These three together guarantee long words wrap instead of scrolling */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* ── Raw events ──────────────────────────────────────────── */
+.raw-events summary {
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.raw-events-pre {
+  background: var(--mono-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  max-height: 400px;
+  overflow: auto;
+  white-space: pre;
+  margin-top: 0.6rem;
+}
+
+/* ── Status page ─────────────────────────────────────────── */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.status-card {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+}
+
+.status-card h3 {
+  font-size: 0.78rem;
+  margin: 0 0 0.4rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-card .big {
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.status-bar {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.4rem 0;
+}
+
+.status-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+
+.length-cell {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.muted {
+  color: var(--text-muted);
+}
+
+.events-stream {
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 0.78rem;
+  background: var(--mono-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.events-stream div {
+  padding: 0.15rem 0;
+  border-bottom: 1px dashed var(--border);
+  display: grid;
+  /* 11rem for event_type handles "AnalysisCompleted" (16 chars) at 0.78rem mono */
+  grid-template-columns: 10rem 11rem 6.5rem 1fr;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.events-stream div:last-child {
+  border-bottom: none;
+}
+
+.events-stream .ts-cell {
+  color: var(--text-muted);
+}
+
+.events-stream .et-cell {
+  color: var(--accent);
+}
+
+.events-stream .ch-cell {
+  color: var(--text-muted);
+}
+
+@media (max-width: 600px) {
+  .events-stream div {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 0.15rem 0.6rem;
+    padding: 0.4rem 0;
+  }
+  .events-stream .ts-cell { grid-column: 1 / -1; font-size: 0.72rem; }
+  .events-stream .et-cell { grid-column: 1 / 2; }
+  .events-stream .ch-cell { grid-column: 2 / 3; justify-self: end; }
+}
+
+.refresh-note {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+/* ── Short fingerprint ID ────────────────────────────────── */
+.memo-table code,
+.memo-meta code {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  background: var(--mono-bg);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  /* Increased vertical padding for a more comfortable click/tap target */
+  padding: 0.25rem 0.5rem;
+  color: var(--text);
+}
+.memo-table .id-cell { white-space: nowrap; }
+
+.copy-id {
+  cursor: pointer;
+  user-select: all;
+  transition: background-color 0.15s;
+}
+.copy-id:hover {
+  background: var(--accent);
+  color: var(--header-text);
+  border-color: var(--accent);
+}
+.copy-id.copied {
+  background: var(--accent);
+  color: var(--header-text);
+  border-color: var(--accent);
+}
+
+/* ── Archive ─────────────────────────────────────────────── */
+.archive-form {
+  display: inline-block;
+  margin: 0;
+}
+
+.archive-btn {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-subtle);
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.archive-btn:hover {
+  background: var(--accent);
+  color: var(--header-text);
+  border-color: var(--accent);
+}
+
+.archived-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  background: #f59e0b;
+  color: #1a1a1a;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (prefers-color-scheme: dark) {
+  .archived-badge {
+    background: #92400e;
+    color: #fef3c7;
+  }
+}
+
+.archive-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.archive-toggle input {
+  margin: 0;
+}
+
+/* ── Pipeline state badges ───────────────────────────────── */
+.state-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  font-family: "SF Mono", Menlo, monospace;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.state-ingested   { background: #fef3c7; color: #78350f; }
+.state-normalized { background: #fde68a; color: #78350f; }
+.state-transcribed { background: #dbeafe; color: #1e40af; }
+.state-diarized   { background: #c7d2fe; color: #3730a3; }
+.state-analyzed   { background: #d1fae5; color: #065f46; }
+
+@media (prefers-color-scheme: dark) {
+  .state-ingested   { background: #78350f; color: #fef3c7; }
+  .state-normalized { background: #78350f; color: #fde68a; }
+  .state-transcribed { background: #1e40af; color: #dbeafe; }
+  .state-diarized   { background: #3730a3; color: #c7d2fe; }
+  .state-analyzed   { background: #065f46; color: #d1fae5; }
+}
+
+/* ── Short viewport height ───────────────────────────────── */
+@media (max-height: 700px) {
+  .side-panel {
+    position: static;
+  }
+  .side-panel-content {
+    max-height: none;
+  }
+}

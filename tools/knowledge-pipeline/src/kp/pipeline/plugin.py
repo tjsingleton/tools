@@ -13,6 +13,10 @@ class RawDocument:
     source: str
     path: Path
     metadata: dict[str, Any] = field(default_factory=dict)
+    # Voice-memo-specific: (duration_seconds, fp_string) computed at discovery time.
+    # None for non-voice-memo sources or if fingerprinting was skipped.
+    # Do NOT serialise into event metadata — emitted via AudioFingerprinted only.
+    audio_fingerprint: "tuple[float, str] | None" = field(default=None, repr=False)
 
 
 @dataclass
