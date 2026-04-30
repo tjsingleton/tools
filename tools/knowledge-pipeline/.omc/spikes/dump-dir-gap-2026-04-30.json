@@ -1,0 +1,321 @@
+{
+  "date": "2026-04-30",
+  "dump_dir": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP",
+  "total_files": 133,
+  "already_ingested": 81,
+  "gap_count": 52,
+  "gap": [
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Hi-Hope Rd 4.qta",
+      "sha256": "5cde47343f00fd683729ed2ffc541c0fd03af6945c5fb4e183d4704683287916",
+      "stem": "Hi-Hope Rd 4",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Hi-Hope Rd.qta",
+      "sha256": "8bf9a41f6671a7afe4b7ce1e4a476d0d94caed12ea7ac4f0f353019b7274259f",
+      "stem": "Hi-Hope Rd",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Hidden Falls Dr.qta",
+      "sha256": "133bd4afead194451ba58855c12369d7f314eec4a2ab84f61c9f6c682124293a",
+      "stem": "Hidden Falls Dr",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Hidden Shoals Rd 5 2.m4a",
+      "sha256": "7d15596914307c0adcd5a8a1f661c71716c07cb03088fe82297550d7da9be34e",
+      "stem": "Hidden Shoals Rd 5 2",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Hidden Shoals Rd 5.m4a",
+      "sha256": "c963f0d28180484f79f412a7b60b720ff8d1d714ca46d643466214d78cda35c2",
+      "stem": "Hidden Shoals Rd 5",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Hidden Shoals Rd 7.m4a",
+      "sha256": "1329a97dc13230bdc446d757f0bba0bbab79c1bd3b18e0a672a09e7d12b07e4f",
+      "stem": "Hidden Shoals Rd 7",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Hidden Shoals Rd 8.m4a",
+      "sha256": "1da57975acf393aa4169032b859711ecc018c6fa8f17c9b935cd259eba312e75",
+      "stem": "Hidden Shoals Rd 8",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Mac Mini.m4a",
+      "sha256": "17274308cfd2f353a895f21c80b55c76616627a7c375cbada49718872ce1bd51",
+      "stem": "Mac Mini",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/McDonald's.m4a",
+      "sha256": "a7d0d696dc8296154f1a31d8542bc40bfe1bf01b084e9a2c5209adf80fb64273",
+      "stem": "McDonald's",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/NC - Jan Leadership.qta",
+      "sha256": "9a6c934de5a35c20208de0239cebed40199cffbdd50e4539a89f5919df65ff9b",
+      "stem": "NC - Jan Leadership",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Neuro - TJ 2.m4a",
+      "sha256": "aa3ce92ae392bec559cc809a462822aa7821a960f598e71ee06bf00ed2b54138",
+      "stem": "Neuro - TJ 2",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Neuro - TJ.m4a",
+      "sha256": "6dc643ef3075b81a6479399ac37feccd9b3e4693ba33f46e0d71ab691716538e",
+      "stem": "Neuro - TJ",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Canaan Baptist Church.m4a",
+      "sha256": "2204b8c1210b4317d3e086cff9e4b09ce4ec33e97723d15d889c5bb8507b505b",
+      "stem": "New Canaan Baptist Church",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Cannan Baptist Church 2.m4a",
+      "sha256": "91f3e940ebbb3958f285a2d0455fb21527cbfbc558157621c8879d74a365a0d1",
+      "stem": "New Cannan Baptist Church 2",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Cannan Baptist Church 3.m4a",
+      "sha256": "b867a65ebb9a0358a698aa9c99b088d008a7ed8f2e7373411e7fad469f806937",
+      "stem": "New Cannan Baptist Church 3",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Cannan Baptist Church 4.m4a",
+      "sha256": "b24109d990ee085ee987ff4d736f13204ce24a3a7b5797cf759616c022187d2c",
+      "stem": "New Cannan Baptist Church 4",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Cannan Baptist Church 4.qta",
+      "sha256": "ae32b46742d42295cb9a5b9bae2b20ab7d6579d81f3c91ef8eec32bf028366d1",
+      "stem": "New Cannan Baptist Church 4",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Cannan Baptist Church 5.m4a",
+      "sha256": "1da4024163807010ff32c03cdca8c4b34a90b8f4c6f3c9ba42862ece0832d2a2",
+      "stem": "New Cannan Baptist Church 5",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Cannan Baptist Church 6.qta",
+      "sha256": "15529b072ff93e6bc4892fa50d348a04451555778f0540c5c29de45b320fa8f4",
+      "stem": "New Cannan Baptist Church 6",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Cannan Baptist Church 7.qta",
+      "sha256": "e0024c3377340618d746ec43379a0947143ac7b0733129d67df6eaab8c4c542a",
+      "stem": "New Cannan Baptist Church 7",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Cannan Baptist Church 8.qta",
+      "sha256": "118e8886f8b9924051a002f29b51d4e9e3adb90d9491e79ffe73186f61c0ab65",
+      "stem": "New Cannan Baptist Church 8",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Cannan Baptist Church 9.qta",
+      "sha256": "5b50d00160d9b78917760d544aff4baf9f425f8fbc9fdb718115d5313107c555",
+      "stem": "New Cannan Baptist Church 9",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Cannan Baptist Church.m4a",
+      "sha256": "a2f5431e6d7d74c1bab4896fad282363f19a0c68e5321badc5fe8db44c7025c7",
+      "stem": "New Cannan Baptist Church",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 10.qta",
+      "sha256": "adf14745717ae29742644ec4cb43688ebacce16eb7eb920023da74ba0cca0a9c",
+      "stem": "New Recording 10",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 11.qta",
+      "sha256": "23a26d79b3184610d03a02d03dbeeb7defba0cd1b2c9777e9c5f26e0a2c6b47e",
+      "stem": "New Recording 11",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 12.qta",
+      "sha256": "e820048b70d55de91831f60e3d2a1c560c8a4dcfc969ce7371e0b4ed3d89d933",
+      "stem": "New Recording 12",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 13.qta",
+      "sha256": "65ca4f8ebf8ab701b1a03cb6790ba91987f72380ed196ca0ae38be75db3033be",
+      "stem": "New Recording 13",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 14.qta",
+      "sha256": "1464178892b2550bcaeb29f4bbe1dd059ae6882c3b30fbdfebea86ceebcec4d5",
+      "stem": "New Recording 14",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 18.qta",
+      "sha256": "a80074e4d862196f27d2791fa1f80f4a42971e59a357dcc0d05a5fd0454d2d0c",
+      "stem": "New Recording 18",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 19.qta",
+      "sha256": "bff5dffe7f6c94c7642f7a6678106f7eed4900b84e7a1e344a1bc56e464bf963",
+      "stem": "New Recording 19",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 2.qta",
+      "sha256": "6080a01d15091230f036592550efea4f0c1034743bce95bf608db80953e5d45c",
+      "stem": "New Recording 2",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 20.qta",
+      "sha256": "a81a4dcc6c261b6d42262fc870ec48cbfd7cf2293e8b5a6ddc18ee0fc16e454d",
+      "stem": "New Recording 20",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 21.qta",
+      "sha256": "acc7f4115e36d1ad20a96647739bdfffd2c40bec808ce28a12de87d253c9ea3a",
+      "stem": "New Recording 21",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 22.qta",
+      "sha256": "7c4856a0c73da00ee8efbde831599992727f06f0239b1ba217f6d27b04ae44f9",
+      "stem": "New Recording 22",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 23.qta",
+      "sha256": "523eac702b9e4f0bf47fce607db52e443514a5a260cb47ef3826f68748e573bb",
+      "stem": "New Recording 23",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 25.m4a",
+      "sha256": "87bbb81c68336b456c409981d8dd64b358a3333c4748323b2dbef930908c1ead",
+      "stem": "New Recording 25",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 4.m4a",
+      "sha256": "bef07bff4f23642f3f70ad0cd7210042f871b5f43f68f8202e8f50eabd231e64",
+      "stem": "New Recording 4",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 5.m4a",
+      "sha256": "ba5641fee7662a129a0092972bb3e089fbdbafd9fc7578472879e1fd616081fa",
+      "stem": "New Recording 5",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 6.m4a",
+      "sha256": "538a5575fd1907e8fabd96457f05c4d023a2472c61e1c63cce1d60bd2e4adc68",
+      "stem": "New Recording 6",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 7.m4a",
+      "sha256": "138218bcbcf44fe461f243e6851565df01bd5b5ac9cfb9e608149a273c180ab3",
+      "stem": "New Recording 7",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 8.m4a",
+      "sha256": "2d0ae3dfa60ef00a0e4b36af63f554418ef7a61f6440c50ec03a21651b5a0ff6",
+      "stem": "New Recording 8",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 9.m4a",
+      "sha256": "4f2cb7027af5f69a57166c00132da7adf476417df136c5a80081db4aa1bcbe39",
+      "stem": "New Recording 9",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording 9.qta",
+      "sha256": "4e7d35fab618cff8f4a1b76f1850dc6e0f4638aebd0406fdff74a2a908a97e7a",
+      "stem": "New Recording 9",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/New Recording.qta",
+      "sha256": "992a796bb08c107be03eb04fcb226bafc38d518ed135836131a922048d9e7651",
+      "stem": "New Recording",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Northside Hospital Gwinnett 2.qta",
+      "sha256": "646e2e7697eb7b48f528a6cd9ebe16c852a097f22d44bf05de78073eff750d7b",
+      "stem": "Northside Hospital Gwinnett 2",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Northside Hospital Gwinnett.m4a",
+      "sha256": "a88baf7df1560124148771e7f0c7371476dff9c372d13c5d4615f263cde53e80",
+      "stem": "Northside Hospital Gwinnett",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Notes on welcoming post.m4a",
+      "sha256": "5cebcb7fb23b6117438a4f505c24d81d538c3c9d67bc358a3677e0dcf420dba1",
+      "stem": "Notes on welcoming post",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Plan.m4a",
+      "sha256": "64b8c31e0828fb6a6f2abfd08132a771a332306183eff40c22bceb1ebf9e28bd",
+      "stem": "Plan",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Ruth.qta",
+      "sha256": "bcb2c502ca7150700cda6542fa20c3caed2713b7f8da34823452a1df6e94c345",
+      "stem": "Ruth",
+      "suffix": ".qta"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Scrabble.m4a",
+      "sha256": "7c3b0e8fd6566e86300831cf7d31cbbdc85b5e5792a6d476e2fe4a271baacaf7",
+      "stem": "Scrabble",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Timer app.m4a",
+      "sha256": "926c77b6a108b2810c11338af28f1cc1cec2846b09e2c3d2b7768ba06d79b304",
+      "stem": "Timer app",
+      "suffix": ".m4a"
+    },
+    {
+      "file": "/Volumes/DataDock/Users/tjsingleton/Archives/Misc/VOICE MEMO DUMP/Zaxbys.m4a",
+      "sha256": "e8ab7cf084ad73f98ca22e32181030b21c3063b4d2e2292eee90c58d980c25c3",
+      "stem": "Zaxbys",
+      "suffix": ".m4a"
+    }
+  ]
+}
