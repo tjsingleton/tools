@@ -93,3 +93,31 @@ def reprocess_stage(
             path=Path(data["path"]),
             metadata=data.get("metadata", {}),
         )
+
+    # Yield ItemIngested items that never got ItemNormalized (pipeline gap recovery)
+    normalized_hashes = {
+        row["content_hash"]
+        for row in store.all()
+        if row["event_type"] == "ItemNormalized"
+    }
+    for row in store.all():
+        if row["event_type"] != "ItemIngested":
+            continue
+        if source is not None and row["source"] != source:
+            continue
+        ch = row["content_hash"]
+        if ch in seen:
+            continue
+        if ch in normalized_hashes:
+            continue
+        data = json.loads(row["data_json"])
+        path_str = data.get("path") or data.get("metadata", {}).get("path", "")
+        if not path_str:
+            continue
+        seen.add(ch)
+        yield RawDocument(
+            content_hash=ch,
+            source=row.get("source", source or ""),
+            path=Path(path_str),
+            metadata=data.get("metadata", {}),
+        )
