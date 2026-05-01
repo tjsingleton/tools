@@ -80,6 +80,10 @@ def analyze_stage(
     resp = client.chat(messages, response_format={"type": "json_object"})
     content = resp["choices"][0]["message"]["content"]
     parsed = _parse_json(content)
+    # Coerce null list fields — LLM sometimes returns null instead of []
+    for _f in ("dates", "people", "speakers", "topics"):
+        if parsed.get(_f) is None:
+            parsed[_f] = []
     # Normalize legacy action_items: list[str] -> list[ActionItem]
     items = parsed.get("action_items") or []
     parsed["action_items"] = [
