@@ -69,6 +69,9 @@ class WhisperXBackend:
         self.hf_token = hf_token or _hf_token()
         self._asr = None
         self._diar = None
+        self._align_model = None
+        self._align_meta = None
+        self._align_lang: str | None = None
 
     def _load_asr(self):
         if self._asr is None:
@@ -104,7 +107,10 @@ class WhisperXBackend:
         result = asr.transcribe(audio, language=self.language) if self.language else asr.transcribe(audio)
         lang = result.get("language", "")
 
-        align_model, align_meta = whisperx.load_align_model(language_code=lang, device=self.device)
+        if self._align_lang != lang or self._align_model is None:
+            self._align_model, self._align_meta = whisperx.load_align_model(language_code=lang, device=self.device)
+            self._align_lang = lang
+        align_model, align_meta = self._align_model, self._align_meta
         aligned = whisperx.align(
             result["segments"], align_model, align_meta, audio, self.device,
             return_char_alignments=False,
@@ -123,6 +129,9 @@ class WhisperXBackend:
                 )
                 self.device = "cpu"
                 self._diar = None
+                self._align_model = None
+                self._align_meta = None
+                self._align_lang = None
                 diar = self._load_diar()
                 diar_segments = diar(
                     audio,

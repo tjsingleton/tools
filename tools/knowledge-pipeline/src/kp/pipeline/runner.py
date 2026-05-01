@@ -135,7 +135,9 @@ class PipelineRunner:
                     counts["normalize"] += 1
 
             text = None
-            if "transcribe" in stages:
+            # Skip faster_whisper when diarize is also running — whisperx does its own
+            # ASR internally and overwrites this text anyway, loading both wastes ~4GB.
+            if "transcribe" in stages and "diarize" not in stages:
                 text = self._transcribe(loaded)
                 counts["transcribe"] += 1
 
