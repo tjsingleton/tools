@@ -55,7 +55,7 @@ class WhisperXBackend:
         model: str = "base",
         device: str = "auto",
         compute_type: str = "int8",
-        language: str | None = None,
+        language: str | None = "en",
         min_speakers: int | None = None,
         max_speakers: int | None = None,
         hf_token: str | None = None,
